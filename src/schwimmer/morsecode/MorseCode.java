@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class MorseCode {
 
-	private final HashMap<Character, String> charToCode;
-	private final HashMap<String, Character> codeToChar;
+	private final HashMap<Character, String>	charToCode;
+	private final HashMap<String, Character>	codeToChar;
 
 	public MorseCode() {
 		charToCode = new HashMap<Character, String>();
@@ -59,17 +59,29 @@ public class MorseCode {
 	}
 
 	public String toMorseCode(final String plainText) {
+
+		if (plainText.length() == 0) {
+			return "";
+		}
+
 		final StringBuilder builder = new StringBuilder();
 		final char[] array = plainText.toUpperCase().toCharArray();
-		builder.append(charToCode.get(array[0]));
-		for (int i = 1; i < array.length; i++) {
+		for (int i = 0; i < array.length; i++) {
+			final String code = charToCode.get(array[i]);
+			if (code == null) {
+				continue;
+			}
+			builder.append(code);
 			builder.append(" ");
-			builder.append(charToCode.get(array[i]));
 		}
-		return builder.toString();
+		return builder.toString().trim();
 	}
 
 	public String toPlainText(final String morseCode) {
+		if (morseCode.length() == 0) {
+			return "";
+		}
+
 		final StringBuilder builder = new StringBuilder();
 		final String[] words = morseCode.split("/");
 
@@ -81,8 +93,7 @@ public class MorseCode {
 		return builder.toString();
 	}
 
-	private void convertWordToPlainText(final StringBuilder builder,
-			final String word) {
+	private void convertWordToPlainText(final StringBuilder builder, final String word) {
 		for (final String code : word.split(" ")) {
 			final Character c = codeToChar.get(code);
 			if (c == null) {

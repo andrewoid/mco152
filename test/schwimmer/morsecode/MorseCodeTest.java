@@ -1,4 +1,5 @@
 package schwimmer.morsecode;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,8 +9,7 @@ public class MorseCodeTest {
 	public void testToMorseCode() {
 		final MorseCode translater = new MorseCode();
 
-		final String code = translater
-				.toMorseCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+		final String code = translater.toMorseCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 		Assert.assertEquals(
 				".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. ----- .---- ..--- ...-- ....- ..... -.... --... ---.. ----.",
 				code);
@@ -29,16 +29,27 @@ public class MorseCodeTest {
 	public void testToMorseCodeWithSpaces() {
 		final MorseCode translater = new MorseCode();
 		final String code = translater.toMorseCode("Three Blind Mice");
-		Assert.assertEquals(
-				"- .... .-. . . / -... .-.. .. -. -.. / -- .. -.-. .", code);
+		Assert.assertEquals("- .... .-. . . / -... .-.. .. -. -.. / -- .. -.-. .", code);
 	}
 
 	@Test
 	public void testToPlainTextWithSpaces() {
 		final MorseCode translater = new MorseCode();
-		final String plainText = translater
-				.toPlainText("- .... .-. . . / -... .-.. .. -. -.. / -- .. -.-. .");
+		final String plainText = translater.toPlainText("- .... .-. . . / -... .-.. .. -. -.. / -- .. -.-. .");
 		Assert.assertEquals("THREE BLIND MICE", plainText);
+	}
+
+	@Test
+	public void testEmptyString() {
+		final MorseCode translater = new MorseCode();
+		Assert.assertEquals("", translater.toMorseCode(""));
+		Assert.assertEquals("", translater.toPlainText(""));
+	}
+
+	@Test
+	public void testUnknownCharacters() {
+		final MorseCode translater = new MorseCode();
+		Assert.assertEquals("", translater.toMorseCode("!@#$%^&*"));
 	}
 
 }
